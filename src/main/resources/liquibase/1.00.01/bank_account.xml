@@ -1,0 +1,31 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="bank_account_create" author="ryanin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="bank_account"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="bankAccount_id_seq" incrementBy="1" startValue="1"/>
+
+        <createTable tableName="bank_account">
+            <column name="bankaccountid" type="NUMERIC(15,0)" remarks="Идентификатор банковского счёта"/>
+            <column name="bankaccountnumber" type="VARCHAR(50)" remarks="Номер банковского счёта"/>
+            <column name="bankaccountmoney" type="NUMERIC(20,5)" remarks="Кол-во средств на счёте"/>
+            <column name="bankaccountemoney" type="NUMERIC(20,5)" remarks="Кол-во бонусов на счёте"/>
+        </createTable>
+        <createIndex tableName="bank_account" indexName="pk_bank_account" unique="true">
+            <column name="bankaccountid"/>
+        </createIndex>
+        <createIndex tableName="bank_account" indexName="k01_bank_account_number" unique="true">
+            <column name="bankaccountnumber"/>
+        </createIndex>
+        <comment>Create of bank_account table</comment>
+    </changeSet>
+
+</databaseChangeLog>
